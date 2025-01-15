@@ -1,5 +1,3 @@
-
-
 <?php
 // include Function  file
 include_once('function.php');
@@ -8,28 +6,32 @@ $userdata=new DB_con();
 if(isset($_POST['submit']))
 {
 // Posted Values
-$nid=$_POST['nid'];
+$sn=$_POST['sn'];
 $name=$_POST['name'];
-$email=$_POST['email'];
-$phone=$_POST['phone'];
+$type=$_POST['type'];
 $location=$_POST['location'];
-$pass=$_POST['pass'];
+$function=$_POST['function'];
+$cost=$_POST['cost'];
+$desc=$_POST['desc'];
 //Function Calling
-$sql=$userdata->addagent($nid,$name,$email,$phone,$location,$pass);
+$sql=$userdata->registration($sn,$name,$type,$location,$function,$cost,$desc);
 if($sql)
 {
 // Message for successfull insertion
-echo "<script>alert('Registration successfull.');</script>";
-echo "<script>window.location.href='add-agent.php'</script>";
+echo "<script>alert('saved successfull');</script>";
+echo "<script>window.location.href='add-tractor.php'</script>";
 }
 else
 {
 // Message for unsuccessfull insertion
 echo "<script>alert('Something went wrong. Please try again');</script>";
-echo "<script>window.location.href='add-agent.php'</script>";
+echo "<script>window.location.href='add-tractor.php'</script>";
+
 }
 }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?php
@@ -290,123 +292,141 @@ Yo              <!--u have 3 new messages-->
     </ul>
 
   </aside><!-- End Sidebar-->
-
   <main id="main" class="main">
-
     <div class="pagetitle">
       <h1>Dashboard</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="admin-dashboard.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="admin-dashboard.php">Home</a></li>
           <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item"><a href="add-agent.php">Report</a></li>
+          
+          <li class="breadcrumb-item"><a href="Add-tractor.php">Available-Cars</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
    
-    <section id="rent" class="appointment section-bg">
-        <div class="container" data-aos="fade-up">
-  
-          <div class="section-title text-center">
-            <h2 style="font-size 8px;">  welcome </h2>
-          </div>
-            <br>
-            <?php
-include_once('DBConnection.php');
-// Object creation
-$conn=new DBConnection();
-if(!empty($_GET['sn']))
-{
-$id=$_GET['sn'];
-
-$edit=$conn->getOne("SELECT* FROM agent WHERE id='".$id."'");
-$_SESSION['edit']=$edit;
-
-?>
-          <form action="update_agent.php" method="post" role="form" data-aos="fade-up" data-aos-delay="100">
-            <div class="row">
-              <div class="col-md-4 form-group">
-              <input type="hidden" name="id" class="form-control" value=" <?=$edit['id']?>" id="name" placeholder="Agent name" required>
-                <input type="text" name="name" class="form-control" value=" <?=$edit['names']?>" id="name" placeholder="Agent name" required>
-              </div>
-              <div class="col-md-4 form-group mt-3 mt-md-0">
-                <input type="text" class="form-control" name="email" value="<?=$edit['email']?> "id="email" placeholder="email" required>
-              </div>
-              <div class="col-md-4 form-group mt-3 mt-md-0">
-                <input type="tel" class="form-control" name="phone"value="<?=$edit['phone']?> " id="phone" placeholder="Your Phone" required>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4 form-group mt-3">
-                <input type="type" name="location" value=" <?=$edit['location']?>"class="form-control datepicker" id="district" placeholder="location" required>
-              </div>
-              <div class="col-md-4 form-group mt-3">
-                <input type="type" name="nid"value="<?=$edit['nid']?> " class="form-control datepicker" id="sector" placeholder="NID" required>
-              </div>
-              <div class="col-md-4 form-group mt-3">
-                <input type="type" name="pass" value=" <?=$edit['password']?>"class="form-control datepicker" id="sector" placeholder="password" required><br>
-              </div>
-            <div class="text-center">
-                <input type="submit" name="submit" value="update" class="btn btn-primary">
-              </div>
-          </form>
-        </div>
-      </section><!-- End Appointment Section -->
- <?php   }  ?> 
-    <br>
-    <table class="table table-bordered table-striped" style="font-size:12px bg-white text-primary">
-    <thead class="text text info">
+    <div class="card-body">
+     <div class="text text-center text-success">
+      <h2>Tracking Records</h2>
+    </div>  <br>
+ <div class="table-responsive">
+<table id="bootstrap-data-table-export" class="table table-striped table-bordered"  style="font-size:11px;">
+    <thead class="text text info" style="font-size: 9px">
       <tr>
-      <th>#</th>
-        <th>NID</th>
-        <th>Agent Name</th>
-        <th>Email</th>
-        <th>phone number</th>
-        <th>Location</th>
-        <th>password</th>
-        <th>Action</th>
+        <th>#</th>
+        <th>S/N</th>
+        <th>Plate Number</th>
         
+        <th>Post sign  Speed </th>
+        <th>Car Speed </th>
+       <th>Lcation of Car</th>
+        <th>Lcation of Post Sign</th>   
+        <th>Decision Taken</th>
+        <th>Due Time </th>
+        <!-- <th>Location</th>
+        <th>functionality</th>
+        <th>Cost</th>
+        <th>Description</th> -->
+        <th class=" bg-white">Action</th>
+
 </tr>
     </thead>
-    <tbody style="font-size:11px">
+    <tbody style="font-size: 11px">
     <?php 
-            $agent = $userdata->dispalyagentdata(); 
-          $i=1;
-              foreach( $agent as $agent)
+            // $tractor = $userdata->getDataStatus(); 
+            $i=1;
+            // SELECT `id`, `Sn`, `possn`, `speed`, `limitspeed`, `due` FROM `data` WHERE 1
+            $tractor = $connc->getAll("SELECT `id`, `Sn`, `possn`, `speed`, `limitspeed`, `due` FROM `data` ORDER BY id DESC");
+              foreach( $tractor as $tractor)
               {
        ?>
         <tr>
-        <td><?=$i++?></td>
-
-          <td><?=$agent['nid']?></td>
-          <td><?=$agent['names']?></td>
-          <td><?=$agent['email']?></td>
-          <td><?=$agent['phone']?></td>
-          <td><?=$agent['location']?></td>
-          <td><?=$agent['password']?></td> 
+          <td><?=$i++?></td>        
+          <td><?=$tractor['Sn']?></td>
+          <td><?=$tractor['possn']?></td>
+          <td><?=$tractor['speed']?></td>
+          <td><?=$tractor['limitspeed']?></td>
           <td>
-          <a href="edit_agent.php?sn=<?=$agent['id'];?>" ><i class="bi bi-pencil"></i></i></a> 
+          <button type="button" class="btn btn-sm-light" data-toggle="modal" data-target="#exampleModalLong">
+<i class="bi bi-geo-alt"></i>
+</button>
 
-              <a href="delete.php?sn=<?=$agent['id']?>"class="alert-danger">  <i class="bi bi-trash3 "></i></a>
-              </td>
-        <tr>
+<!-- Modal -->
+<div class="modal fade  col-sm-10" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">POST SIGN</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="mapouter"><div class="gmap_canvas">
+        <iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+       src="https://maps.google.com/maps?width=100%&amp;height=366&amp;hl=en&amp;q=virtual Rwanda  
+       technology&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe><a href="https://formatjson.org/">
+        format json</a></div><style>.mapouter{position:relative;text-align:right;width:100%;height:366px;}
+      .gmap_canvas {overflow:hidden;background:none!important;width:100%;height:366px;}.gmap_iframe {width:100%!important;height:366px!important;}</style></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </td>
+          <td>
+            <button type="button" class="btn btn-sm-warning" data-toggle="modal" data-target="#exampleModalLongff">
+<i class="bi bi-geo-alt"></i>
+</button>
+
+
+</td>
+          <td>
+
+          <?php
+if($tractor['speed']<$tractor['limitspeed'])
+{
+  ?>
+
+ <span class="badge badge-success bg-warning"> <i class=" bi bi-cpu-fill "></i>Over Speeding</span>
+<?php
+}else{
+?>
+
+<span class="badge badge-primary bg-secondary"> <i class=" bi bi-cpu-fill "></i>Good Speeding</span>
+<?php
+}
+?>
+          </td>  
+          <td><?=$tractor['due']?></td>
+          <td class=" bg-white">
+            <a href="edit_tractor.php?sn=<?=$tractor['id'];?>"><i class="bi bi-pencil size:100px" ></i></a> 
+
+            <a href="delete_tractor.php?sn=<?=$tractor['id']?>"class="alert-danger">  <i class="bi bi-trash3 "></i></a>
+          </td>
+        </tr>
       <?php }
         
         ?>
-    <tbody>
-  <table>
+    </tbody>
+  </table>
   </div>
-
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">script>
+<br>
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>VRT</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Antoine</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">HITAYEZU ANTOINE</a>
+     
+      Designed by <a href="#">ACIOT UR</a>
     </div>
   </footer><!-- End Footer -->
 
@@ -421,6 +441,17 @@ $_SESSION['edit']=$edit;
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <!--http://solar.iot.rw/css/lib/data-table/buttons.bootstrap.min.css-->
+  
+    <script src="http://solar.iot.rw/js/lib/data-table/datatables.min.js"></script>
+    <script src="http://solar.iot.rw/js/lib/data-table/dataTables.buttons.min.js"></script>
+    <script src="http://solar.iot.rw/js/lib/data-table/buttons.flash.min.js"></script>
+    <script src="http://solar.iot.rw/js/lib/data-table/jszip.min.js"></script>
+    <script src="http://solar.iot.rw/js/lib/data-table/pdfmake.min.js"></script>
+    <script src="http://solar.iot.rw/js/lib/data-table/vfs_fonts.js"></script>
+    <script src="http://solar.iot.rw/js/lib/data-table/buttons.html5.min.js"></script>
+    <script src="http://solar.iot.rw/js/lib/data-table/buttons.print.min.js"></script>
+    <script src="http://solar.iot.rw/js/lib/data-table/datatables-init.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>

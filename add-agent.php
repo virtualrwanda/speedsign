@@ -86,7 +86,7 @@ $connc=new DBConnection();
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-      <i class="bi bi-cpu-fill"></i>
+      ACIoT<i class="bi bi-cpu-fill"></i>
         <span class="d-none d-lg-block">POST IOT</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -293,7 +293,18 @@ Yo              <!--u have 3 new messages-->
   </aside><!-- End Sidebar-->
   <main id="main" class="main">
 
-
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="admin-dashboard.php">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item"><a href="add-agent.php">Report</a></li>
+          
+          <li class="breadcrumb-item"><a href="Add-tractor.php">Available-Cars</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
    
     <section id="rent" class="appointment section">
         <div class="container-fluid" data-aos="fade-up">
@@ -355,9 +366,9 @@ Yo              <!--u have 3 new messages-->
         <th>POST S/NUMBER </th>
         <th>LATITUDE</th>
         <th>LONGTUTIDE</th>
-        <th>Speed Limit</th>
+        <th>Limit Speed</th>
         <th>Direction</th>
-      <!-- <th>LOCATION</th> -->
+        <th>LOCATION</th>
         <th colspan="2">Action</th>
         
       </tr>
@@ -379,13 +390,47 @@ Yo              <!--u have 3 new messages-->
           <td><?=$agent['location']?></td
           >  
            <td><?=$agent['nid']?></td>
-      
+          <td>
+        
+         <!-- Button trigger modal -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+<i class="bi bi-geo-alt"></i>
+</button>
+
+<!-- Modal -->
+<div class="modal fade  col-sm-10" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">POST SIGN</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="mapouter"><div class="gmap_canvas">
+        <iframe class="gmap_iframe" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+       src="https://maps.google.com/maps?width=100%&amp;height=366&amp;hl=en&amp;q=virtual Rwanda  
+       technology&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe><a href="https://formatjson.org/">
+        format json</a></div><style>.mapouter{position:relative;text-align:right;width:100%;height:366px;}
+      .gmap_canvas {overflow:hidden;background:none!important;width:100%;height:366px;}.gmap_iframe {width:100%!important;height:366px!important;}</style></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+        
+        </td>
           <!-- <td><?=$agent['password']?></td>  -->
           <td>
-          <a href="edit_agent.php?sn=<?=$agent['id'];?>" >edit<i class="bi bi-pencil"></i></i></a> 
+          <a href="edit_agent.php?sn=<?=$agent['id'];?>" ><i class="bi bi-pencil"></i></i></a> 
           </td>
            <td>
-           <a href="delete.php?sn=<?=$agent['id']?>"class="alert-danger"> delete <i class="bi bi-trash3 "></i></a>
+           <a href="delete.php?sn=<?=$agent['id']?>"class="alert-danger">  <i class="bi bi-trash3 "></i></a>
           </td>
         <tr>
       <?php }
@@ -474,14 +519,14 @@ Yo              <!--u have 3 new messages-->
   <div class="footer bg-darker">
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>Seth</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>Antoine</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->
       <!-- You can delete the links only if you purchased the pro version. -->
       <!-- Licensing information: https://bootstrapmade.com/license/ -->
       <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="#">KUBWUMUKIZA Seth</a>
+      Designed by <a href="#">Hitayezu Antoine</a>
     </div>
   </footer><!-- End Footer -->
 

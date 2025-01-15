@@ -2,6 +2,7 @@
 
 class DBConnection
 {
+
     private $conn;
     private $host;
     private $user;
@@ -9,80 +10,93 @@ class DBConnection
     private $dbName;
     private $port;
 
-    // Constructor to initialize default database connection parameters
-    function __construct($params = array()) {
+    function __construct($params=array()) {
         $this->conn = false;
         $this->host = 'localhost';
-        $this->user = 'electralink_speed';
-        $this->password = 'electralink_speed';  // Make sure this is set appropriately
-        $this->dbName = 'electralink_speed';
-        $this->port = '3306'; // Default MySQL port
-        $this->connect(); // Call connect method to establish DB connection
+        $this->user = 'iotrw_speedsigns';
+        $this->password = 'iotrw_speedsigns';
+        $this->dbName = 'iotrw_speedsigns';
+        $this->port = '3306';
+        $this->connect();
     }
 
-    // Destructor to disconnect from the database when object is destroyed
     function __destruct() {
         $this->disconnect();
     }
 
-    // Private function to connect to the database using PDO
     private function connect() {
+
         if (!$this->conn) {
+
             try {
-                // Creating a new PDO connection
-                $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbName . ';charset=utf8';
-                $this->conn = new PDO($dsn, $this->user, $this->password, [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // Enable exceptions for errors
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // Default fetch mode to associative array
-                ]);
-            } catch (PDOException $e) {
-                die('Database connection error: ' . $e->getMessage());
+
+                $this->conn = new PDO('mysql:host='.$this->host.';dbname='.$this->dbName.'', $this->user, $this->password, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+
+                if (!$this->conn) {
+                    $this->status_fatal = true;
+                    echo 'Connection BDD failed';
+                    die();
+                }
+            } catch (Exception $e) {
+                die('Erreur : ' . $e->getMessage());
             }
         }
         return $this->conn;
     }
-
-    // Disconnect from the database by setting the connection to null
-    private function disconnect() {
+    function disconnect() {
         if ($this->conn) {
             $this->conn = null;
         }
     }
+    function getOne($query) {
 
-    // Function to fetch one row from the database (for queries expecting a single row)
-    public function getOne($query, $params = []) {
-        try {
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute($params); // Execute the query with optional parameters
-            return $stmt->fetch(); // Return the first result
-        } catch (PDOException $e) {
-            die('Error executing query: ' . $e->getMessage());
+        $result = $this->conn->prepare($query);
+        $ret = $result->execute();
+
+        if (!$ret) {
+            echo 'PDO::errorInfo():';
+            echo '<br />';
+            echo 'error SQL: '.$query;
+            die();
         }
+
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $reponse = $result->fetch();
+
+        return $reponse;
     }
 
-    // Function to fetch all rows from the database (for queries expecting multiple rows)
-    public function getAll($query, $params = []) {
-        try {
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute($params);
-            return $stmt->fetchAll(); // Return all results as an array
-        } catch (PDOException $e) {
-            die('Error executing query: ' . $e->getMessage());
+    function getAll($query) {
+
+        $result = $this->conn->prepare($query);
+        $ret = $result->execute();
+
+        if (!$ret) {
+            echo 'PDO::errorInfo():';
+            echo '<br />';
+            echo 'error SQL: '.$query;
+            die();
         }
+
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $reponse = $result->fetchAll();
+
+        return $reponse;
     }
 
-    // Function to execute an INSERT, UPDATE, or DELETE statement
-    public function execute($query, $params = []) {
-        try {
-            $stmt = $this->conn->prepare($query);
-            return $stmt->execute($params); // Return true on success, false on failure
-        } catch (PDOException $e) {
-            die('Error executing query: ' . $e->getMessage());
+    function execute($query) {
+
+        if (!$response = $this->conn->exec($query)) {
+            echo 'PDO::errorInfo():';
+            echo '<br />';
+            echo 'error SQL: '.$query;
+            die();
         }
+
+        return $response;
     }
 }
 
-// Example usage:
-// $dbConn = new DBConnection();
-// print_r($dbConn->getAll("SELECT * FROM `admins`"));
-?>
+//$dbConn=new DBConnection();
+//
+//print_r($dbConn->getAll("SELECT * FROM `admins`"));

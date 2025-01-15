@@ -38,15 +38,25 @@ echo "<script>window.location.href='add-tractor.php'</script>";
 <?php
 include('naviba.php');
 ?>
-
   <main id="main" class="main">
 
-   
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="admin-dashboard.php">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item"><a href="add-agent.php">Report</a></li>
+          
+          <li class="breadcrumb-item"><a href="Add-tractor.php">Available-Cars</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
    
     <section id="rent" class="appointment section-bg">
         <div class="container" data-aos="fade-up">
         <div class="row">  
-              <div class="col-md-3 form-group">
+              <div class="col-md-5 form-group">
           <div class="section-title text-center">
 
             <h2>Add new Vehicle</h2>
@@ -63,11 +73,9 @@ include('naviba.php');
                 <input type="text" class="form-control" name="name" id="name" placeholder=" Plate Number" required>
               </div>
               </div>
-              <div class="row">
               <div class="col-md-12 form-group mt-3 mt-md-0">
                 <input type="text" class="form-control" name="type" id="type" placeholder="Ouner Telphone" required>
               </div>
-            </div>
             </div>
             <!-- </div> -->
             <div class="row">
@@ -81,7 +89,7 @@ include('naviba.php');
        </div>
  
     <!-- End Appointment Section -->
-    <div class="col-md-6 form-group bg-light">
+    <div class="col-md-7 form-group bg-light">
     <div class="card-body">
      <div class="text text-center text-success">
       <h2>view all Vehicle</h2>
@@ -120,9 +128,9 @@ include('naviba.php');
           <td><?=$tractor['description']?></td>   -->
           
           <td class=" bg-white">
-            <!-- <a href="edit_tractor.php?sn=<?=$tractor['id'];?>"><i class="bi bi-pencil size:100px" ></i>edit</a>  -->
+            <a href="edit_tractor.php?sn=<?=$tractor['id'];?>"><i class="bi bi-pencil size:100px" ></i></a> -----
 
-            <a href="delete_tractor.php?sn=<?=$tractor['id']?>"class="alert-danger">  <i class="bi bi-trash3 "></i>Delete</a>
+            <a href="delete_tractor.php?sn=<?=$tractor['id']?>"class="alert-danger">  <i class="bi bi-trash3 "></i></a>
           </td>
         <tr>
       <?php }
@@ -164,25 +172,7 @@ include('naviba.php');
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.min.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
 </body>
 
 </html>
