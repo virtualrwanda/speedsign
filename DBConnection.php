@@ -13,9 +13,9 @@ class DBConnection
     function __construct($params = array()) {
         $this->conn = false;
         $this->host = 'localhost';
-        $this->user = 'root';
-        $this->password = '';  // Make sure this is set appropriately
-        $this->dbName = 'iotrw_speedsigns';
+        $this->user = 'electralink_speed';
+        $this->password = 'electralink_speed';  // Make sure this is set appropriately
+        $this->dbName = 'electralink_speed';
         $this->port = '3306'; // Default MySQL port
         $this->connect(); // Call connect method to establish DB connection
     }
